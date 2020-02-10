@@ -38,5 +38,45 @@ namespace SeleniumTutorial
         {
             driver.Navigate().GoToUrl( "https://" + txtNavigate.Text );
         }
+
+        private void btnLoginFB_Click( object sender, EventArgs e )
+        {
+            if ( driver is null )
+            {
+                driver = new OpenQA.Selenium.Chrome.ChromeDriver();
+            }
+
+            loginToFB();
+            postToFBGroup();
+        }
+
+        private void loginToFB()
+        {
+            driver.Navigate().GoToUrl( String.Format( "https://www.facebook.com/groups/{0}/", txtGroupName.Text ) );
+
+            OpenQA.Selenium.IWebElement elemEMail = driver.FindElement( OpenQA.Selenium.By.Id( "email" ) );
+            OpenQA.Selenium.IWebElement elemPass = driver.FindElement( OpenQA.Selenium.By.Id( "pass" ) );
+
+            elemEMail.SendKeys( txtUsernameFB.Text );
+            elemPass.SendKeys( txtPassFB.Text );
+            elemPass.SendKeys( OpenQA.Selenium.Keys.Enter );
+        }
+
+        private void postToFBGroup()
+        {
+            OpenQA.Selenium.IWebElement elemPost = driver.FindElement( OpenQA.Selenium.By.Name( "xhpc_message_text" ) );
+            elemPost.SendKeys( txtPost.Text );
+
+            OpenQA.Selenium.IWebElement elemPostButton = driver.FindElement( OpenQA.Selenium.By.XPath( "//button [@data-testid='react-composer-post-button']" ) );
+            elemPostButton.Click();
+        }
+
+        private void Form1_FormClosed( object sender, FormClosedEventArgs e )
+        {
+            if ( !(driver is null) )
+            {
+                driver.Quit();
+            }
+        }
     }
 }
