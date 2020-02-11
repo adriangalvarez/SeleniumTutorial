@@ -78,5 +78,42 @@ namespace SeleniumTutorial
                 driver.Quit();
             }
         }
+
+        private void Form1_Load( object sender, EventArgs e )
+        {
+
+        }
+
+        private void btnRefresh_Click( object sender, EventArgs e )
+        {
+            driver.Navigate().Refresh();
+        }
+
+        private void btnBack_Click( object sender, EventArgs e )
+        {
+            driver.Navigate().Back();
+        }
+
+        private void btnForward_Click( object sender, EventArgs e )
+        {
+            driver.Navigate().Forward();
+        }
+
+        private void btnFullscreen_Click( object sender, EventArgs e )
+        {
+            driver.Manage().Window.FullScreen();
+        }
+
+        private void btnGetUrl_Click( object sender, EventArgs e )
+        {
+            lblData.Text = driver.Url;
+            lblData.Visible = true;
+        }
+
+        private void btnGetTitle_Click( object sender, EventArgs e )
+        {
+            lblData.Text = driver.Title;
+            lblData.Visible = true;
+        }
     }
 }
