@@ -48,6 +48,8 @@
             this.btnGetUrl = new System.Windows.Forms.Button();
             this.btnGetTitle = new System.Windows.Forms.Button();
             this.lblData = new System.Windows.Forms.Label();
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.lblPathToPhoto = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnOpenBrowser
@@ -115,9 +117,9 @@
             // 
             // btnLoginFB
             // 
-            this.btnLoginFB.Location = new System.Drawing.Point(266, 258);
+            this.btnLoginFB.Location = new System.Drawing.Point(369, 259);
             this.btnLoginFB.Name = "btnLoginFB";
-            this.btnLoginFB.Size = new System.Drawing.Size(236, 38);
+            this.btnLoginFB.Size = new System.Drawing.Size(133, 38);
             this.btnLoginFB.TabIndex = 7;
             this.btnLoginFB.Text = "Login to FB and Post";
             this.btnLoginFB.UseVisualStyleBackColor = true;
@@ -238,11 +240,33 @@
             this.lblData.Text = "lblData";
             this.lblData.Visible = false;
             // 
+            // btnSelectFile
+            // 
+            this.btnSelectFile.Location = new System.Drawing.Point(266, 259);
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.btnSelectFile.Size = new System.Drawing.Size(92, 38);
+            this.btnSelectFile.TabIndex = 21;
+            this.btnSelectFile.Text = "Select Photo to Upload";
+            this.btnSelectFile.UseVisualStyleBackColor = true;
+            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
+            // 
+            // lblPathToPhoto
+            // 
+            this.lblPathToPhoto.AutoSize = true;
+            this.lblPathToPhoto.Location = new System.Drawing.Point(266, 306);
+            this.lblPathToPhoto.Name = "lblPathToPhoto";
+            this.lblPathToPhoto.Size = new System.Drawing.Size(80, 13);
+            this.lblPathToPhoto.TabIndex = 22;
+            this.lblPathToPhoto.Text = "lblPathToPhoto";
+            this.lblPathToPhoto.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 306);
+            this.ClientSize = new System.Drawing.Size(514, 331);
+            this.Controls.Add(this.lblPathToPhoto);
+            this.Controls.Add(this.btnSelectFile);
             this.Controls.Add(this.lblData);
             this.Controls.Add(this.btnGetTitle);
             this.Controls.Add(this.btnGetUrl);
@@ -266,7 +290,6 @@
             this.Name = "Form1";
             this.Text = "SeleniumTutorial";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -294,6 +317,8 @@
         private System.Windows.Forms.Button btnGetUrl;
         private System.Windows.Forms.Button btnGetTitle;
         private System.Windows.Forms.Label lblData;
+        private System.Windows.Forms.Button btnSelectFile;
+        private System.Windows.Forms.Label lblPathToPhoto;
     }
 }
 
