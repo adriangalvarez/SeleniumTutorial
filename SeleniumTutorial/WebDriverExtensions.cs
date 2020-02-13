@@ -17,7 +17,7 @@ namespace SeleniumTutorial
             {
                 var wait = new OpenQA.Selenium.Support.UI.WebDriverWait( driver, TimeSpan.FromSeconds( timeoutInSeconds ) );
                 wait.PollingInterval = TimeSpan.FromMilliseconds( 500 );
-                wait.IgnoreExceptionTypes( typeof( OpenQA.Selenium.ElementNotInteractableException ), typeof( OpenQA.Selenium.NoSuchElementException ) );
+                wait.IgnoreExceptionTypes( typeof( OpenQA.Selenium.ElementNotInteractableException ), typeof( OpenQA.Selenium.NoSuchElementException ), typeof(OpenQA.Selenium.WebDriverTimeoutException) );
                 wait.Until( drv =>
                     {
                         var elemList = drv.FindElements( by );

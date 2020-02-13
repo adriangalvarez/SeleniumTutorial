@@ -13,6 +13,7 @@ namespace SeleniumTutorial
     public partial class Form1 : Form
     {
         private OpenQA.Selenium.IWebDriver driver;
+        private bool isGroup = false;             //Facebook handles differently if the post is to your own wall, or to a group wall
 
         public Form1()
         {
@@ -79,18 +80,18 @@ namespace SeleniumTutorial
                 driver = new OpenQA.Selenium.Chrome.ChromeDriver(options);
             }
 
-            preparePostToFB( loginToFB() );
+            loginToFB();
+            preparePostToFB();
+            publishPost();
         }
 
-        private bool loginToFB()
+        private void loginToFB()
         {
-            bool group = false;
-
             if ( txtGroupName.Text.Equals(string.Empty) )
                 driver.Navigate().GoToUrl( String.Format( "https://www.facebook.com/" ) );
             else
             {
-                group = true;
+                isGroup = true;
                 driver.Navigate().GoToUrl( String.Format( "https://www.facebook.com/groups/{0}/", txtGroupName.Text ) );
             }
 
@@ -100,17 +101,20 @@ namespace SeleniumTutorial
             elemEMail.SendKeys( txtUsernameFB.Text );
             elemPass.SendKeys( txtPassFB.Text );
             elemPass.SendKeys( OpenQA.Selenium.Keys.Enter );
-            return group;
         }
 
-        private void preparePostToFB(bool group )
+        private void preparePostToFB()
         {
+            if ( lblPathToPhoto.Visible )
+            {
+                addImageToFBPost();
+            }
+
             if ( !txtPost.Equals( string.Empty ) )
             {
                 OpenQA.Selenium.IWebElement elemPost;
-
-                if ( group )
-                    elemPost = driver.FindElement( OpenQA.Selenium.By.Name( "xhpc_message_text" ), 10 );
+                if ( isGroup )
+                    elemPost = driver.FindElement( OpenQA.Selenium.By.XPath( "/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[2]/div[2]/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div/div[2]/div/div[1]/div[1]/div/div[1]/div[2]/div/div/div/div/div/div/div[2]/div" ), 40 );
                 else
                 {
                     driver.FindElement( OpenQA.Selenium.By.Name( "xhpc_message" ), 10 ).SendKeys( OpenQA.Selenium.Keys.Return );
@@ -119,25 +123,46 @@ namespace SeleniumTutorial
 
                 elemPost.SendKeys( txtPost.Text );
             }
-
-            if ( lblPathToPhoto.Visible )
-            {
-                addImageToFBPost();
-            }
-
-            makePost();
         }
 
         private void addImageToFBPost()
         {
-            OpenQA.Selenium.IWebElement addPicButton = driver.FindElement( OpenQA.Selenium.By.Name( "composer_photo[]" ), 10 );
-            addPicButton.SendKeys( lblPathToPhoto.Text );
+            OpenQA.Selenium.IWebElement addPicButton;
+
+            if ( isGroup )
+            {
+                addPicButton = driver.FindElement( OpenQA.Selenium.By.Name( "composer_photo[]" ), 10 );
+                addPicButton.SendKeys( lblPathToPhoto.Text );
+
+                //This line is because in group posts, if the image isn't uploaded before clicking the "Post" button, it gets lost,
+                //so I need to wait until it shows up as a thumbnail before going to publishPost()
+                OpenQA.Selenium.IWebElement elemImage = driver.FindElement( OpenQA.Selenium.By.XPath( "//div [@data-testid='media-attachment-photo']" ), 60 );
+            } else
+            {
+                addPicButton = driver.FindElement( OpenQA.Selenium.By.XPath( "/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[1]/div[2]/div/div[3]/div/div/div[2]/div/div/div/form/div[2]/span/div[1]/div/a/div[2]/input" ), 10 );
+                addPicButton.SendKeys( lblPathToPhoto.Text );
+            }
         }
 
-        private void makePost()
+        private void publishPost()
         {
             OpenQA.Selenium.IWebElement elemPostButton = driver.FindElement( OpenQA.Selenium.By.XPath( "//button [@data-testid='react-composer-post-button']" ), 10 );
-            elemPostButton.Click();
+
+            if ( isGroup )
+            {
+                OpenQA.Selenium.IWebElement elemImage = driver.FindElement( OpenQA.Selenium.By.XPath( "//div [@data-testid='media-attachment-photo']" ), 60 );
+                try
+                {
+                    elemPostButton.Click();
+                } catch ( OpenQA.Selenium.StaleElementReferenceException )
+                {
+                    elemPostButton = driver.FindElement( OpenQA.Selenium.By.XPath( "//button [@data-testid='react-composer-post-button']" ), 10 );
+                    elemPostButton.Click();
+                }
+            } else
+            {
+                elemPostButton.Click();
+            }
         }
 
         private void btnSelectFile_Click( object sender, EventArgs e )
@@ -158,6 +183,14 @@ namespace SeleniumTutorial
             {
                 driver.Quit();
             }
+        }
+
+        private void Form1_Load( object sender, EventArgs e )
+        {
+            txtUsernameFB.Text = "testuser";
+            txtPassFB.Text = "testpass";
+            txtGroupName.Text = "testgroup";
+            txtPost.Text = "testpost";
         }
     }
 }
