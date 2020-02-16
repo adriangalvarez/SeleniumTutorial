@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserManagement.cs" />
+    <Compile Include="FacebookAutomation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
