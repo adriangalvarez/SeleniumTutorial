@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SeleniumTutorial
 {
-    class FacebookAutomation
+    public class FacebookAutomation
     {
         private bool isGroup;
 

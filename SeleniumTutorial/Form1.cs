@@ -13,7 +13,7 @@ namespace SeleniumTutorial
     public partial class Form1 : Form
     {
         private BrowserManagement browser;
-        private FacebookAutomation facebookAutomation;
+        private SeleniumTutorial.FacebookAutomation facebookAutomation;
      
         public Form1()
         {
