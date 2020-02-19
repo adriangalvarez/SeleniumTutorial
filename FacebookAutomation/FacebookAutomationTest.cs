@@ -11,8 +11,8 @@ namespace SeleniumTutorial
         private bool isGroup;
 
         private OpenQA.Selenium.IWebDriver driver;
-        private global::FacebookAutomation.PageFacebookLogin pageFacebookLogin;
-        private global::FacebookAutomation.PageFacebookWall pageFacebookWall;
+        private FacebookAutomation.PageFacebookLogin pageFacebookLogin;
+        private FacebookAutomation.PageFacebookWall pageFacebookWall;
 
         #region "Constructor & Destructor"
         public FacebookAutomationTest()
