@@ -13,7 +13,7 @@ namespace SeleniumTutorial
     public partial class Form1 : Form
     {
         private BrowserManagement browser;
-        private SeleniumTutorial.FacebookAutomation facebookAutomation;
+        private SeleniumTutorial.FacebookAutomationTest facebookAutomation;
      
         public Form1()
         {
@@ -76,7 +76,7 @@ namespace SeleniumTutorial
 
         private void btnLoginFB_Click( object sender, EventArgs e )
         {
-            facebookAutomation = new FacebookAutomation();
+            facebookAutomation = new FacebookAutomationTest();
             facebookAutomation.EMail = txtUsernameFB.Text;
             facebookAutomation.Password = txtPassFB.Text;
             facebookAutomation.AddGroup( txtGroupName.Text );
